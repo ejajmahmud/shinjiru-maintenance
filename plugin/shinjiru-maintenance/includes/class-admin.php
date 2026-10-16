@@ -157,7 +157,8 @@ class Admin {
 				wp_die( esc_html__( 'Unauthorized.', 'shinjiru-maintenance' ), 403 );
 			}
 
-			$raw_data = isset( $_POST['shinjiru_settings'] ) ? (array) $_POST['shinjiru_settings'] : [];
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+			$raw_data = isset( $_POST['shinjiru_settings'] ) ? (array) wp_unslash( $_POST['shinjiru_settings'] ) : [];
 			if ( isset( $_POST['regenerate_token'] ) ) {
 				$raw_data['regenerate_token'] = 1;
 			}
@@ -167,7 +168,7 @@ class Admin {
 
 			Config::update_settings( $raw_data );
 
-			$current_tab = isset( $_POST['current_tab'] ) ? sanitize_key( $_POST['current_tab'] ) : 'general';
+			$current_tab = isset( $_POST['current_tab'] ) ? sanitize_key( wp_unslash( $_POST['current_tab'] ) ) : 'general';
 			set_transient( 'shinjiru_maint_notice', [ 'type' => 'success', 'msg' => __( 'Settings updated successfully.', 'shinjiru-maintenance' ) ], 45 );
 			wp_safe_redirect( admin_url( 'options-general.php?page=' . self::MENU_SLUG . '&tab=' . $current_tab ) );
 			exit;
@@ -183,7 +184,8 @@ class Admin {
 		}
 
 		$settings = Config::get_settings();
-		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'general';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : 'general';
 		$tabs = [
 			'general'   => [ 'label' => __( 'Status & Mode', 'shinjiru-maintenance' ), 'icon' => 'dashicons-admin-generic' ],
 			'design'    => [ 'label' => __( 'Design & Templates', 'shinjiru-maintenance' ), 'icon' => 'dashicons-art' ],

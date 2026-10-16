@@ -54,7 +54,6 @@ register_deactivation_hook( __FILE__, [ 'Shinjiru\\Maintenance\\Lifecycle', 'dea
 
 // Initialize the plugin.
 function shinjiru_maintenance_init() {
-	load_plugin_textdomain( 'shinjiru-maintenance', false, dirname( SHINJIRU_MAINTENANCE_BASENAME ) . '/languages' );
 	Plugin::instance();
 }
 add_action( 'plugins_loaded', __NAMESPACE__ . '\\shinjiru_maintenance_init' );

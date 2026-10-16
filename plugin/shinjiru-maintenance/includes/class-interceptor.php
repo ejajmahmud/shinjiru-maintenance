@@ -25,8 +25,10 @@ class Interceptor {
 		$settings = Config::get_settings();
 
 		// 2. Check preview mode for administrators
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['shinjiru_preview'] ) && current_user_can( 'manage_options' ) ) {
-			$preview_template = sanitize_key( $_GET['shinjiru_preview'] );
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$preview_template = sanitize_key( wp_unslash( $_GET['shinjiru_preview'] ) );
 			Template_Engine::render( $preview_template, $settings, true );
 			exit;
 		}
@@ -124,6 +126,7 @@ class Interceptor {
 		}
 
 		// WooCommerce Webhooks and API endpoints
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['wc-api'] ) || isset( $_GET['wc-ajax'] ) ) {
 			return true;
 		}

@@ -26,8 +26,8 @@ class Config {
 			'status'                => 'off',
 			'page_title'            => __( 'Site Under Maintenance', 'shinjiru-maintenance' ),
 			'headline'              => __( 'We will be back shortly.', 'shinjiru-maintenance' ),
-			'description'           => __( 'We are performing scheduled maintenance and updates to improve your experience. Thank you for your patience!', 'shinjiru-maintenance' ),
-			'footer_text'           => __( '&copy; ' . date( 'Y' ) . ' All rights reserved.', 'shinjiru-maintenance' ),
+			/* translators: %s: current 4-digit year */
+			'footer_text'           => sprintf( __( '&copy; %s All rights reserved.', 'shinjiru-maintenance' ), gmdate( 'Y' ) ),
 			'template'              => 'minimal',
 			'logo_url'              => '',
 			'logo_id'               => 0,

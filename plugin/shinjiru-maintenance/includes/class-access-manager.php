@@ -70,7 +70,7 @@ class Access_Manager {
 		$password_active = ( 'locked' === $settings['status'] ) || ! empty( $settings['enable_password'] );
 		if ( $password_active && ! empty( $settings['password_hash'] ) && isset( $_POST['shinjiru_password'] ) ) {
 			if ( isset( $_POST['shinjiru_pass_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['shinjiru_pass_nonce'] ) ), 'shinjiru_pass_action' ) ) {
-				$submitted_password = (string) wp_unslash( $_POST['shinjiru_password'] );
+				$submitted_password = isset( $_POST['shinjiru_password'] ) ? sanitize_text_field( wp_unslash( $_POST['shinjiru_password'] ) ) : '';
 				if ( wp_check_password( $submitted_password, $settings['password_hash'] ) ) {
 					$session_duration = ! empty( $settings['password_session_hours'] ) ? (int) $settings['password_session_hours'] : 24;
 					self::set_bypass_cookie( $session_duration );

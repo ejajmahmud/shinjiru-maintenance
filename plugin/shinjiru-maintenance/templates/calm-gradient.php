@@ -1,19 +1,29 @@
-<!doctype html>
+<?php
+/**
+ * Soft Light / Calm Gradient Template.
+ *
+ * @package Shinjiru\Maintenance
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+?><!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
   <meta charset="<?php bloginfo( 'charset' ); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <title><?php echo $title; ?></title>
-  <link rel="stylesheet" href="<?php echo esc_url( SHINJIRU_MAINTENANCE_URL . 'assets/css/templates.css' ); ?>">
+  <title><?php echo esc_html( $title ); ?></title>
+  <?php wp_head(); ?>
   <?php if ( ! empty( $custom_css ) ) : ?>
-    <style><?php echo $custom_css; ?></style>
+    <style><?php echo wp_strip_all_tags( $custom_css ); ?></style>
   <?php endif; ?>
 </head>
 <body class="calm-gradient">
   <div class="page">
     <header class="masthead">
-      <img class="logo" src="<?php echo $logo_url; ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
+      <img class="logo" src="<?php echo esc_url( $logo_url ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
       <div class="notice">
         <span class="dot" aria-hidden="true"></span>
         <?php 
@@ -42,11 +52,11 @@
             }
             ?>
           </p>
-          <h1><?php echo $headline; ?></h1>
-          <div class="description"><?php echo $description; ?></div>
+          <h1><?php echo esc_html( $headline ); ?></h1>
+          <div class="description"><?php echo wp_kses_post( $description ); ?></div>
 
           <?php if ( $show_countdown && $countdown_target ) : ?>
-            <div class="countdown" data-countdown-target="<?php echo $countdown_target; ?>" aria-label="<?php esc_attr_e( 'Countdown', 'shinjiru-maintenance' ); ?>">
+            <div class="countdown" data-countdown-target="<?php echo esc_attr( $countdown_target ); ?>" aria-label="<?php esc_attr_e( 'Countdown', 'shinjiru-maintenance' ); ?>">
               <div class="unit"><span class="num cd-days">00</span><span class="label"><?php esc_html_e( 'Days', 'shinjiru-maintenance' ); ?></span></div>
               <div class="unit"><span class="num cd-hours">00</span><span class="label"><?php esc_html_e( 'Hours', 'shinjiru-maintenance' ); ?></span></div>
               <div class="unit"><span class="num cd-minutes">00</span><span class="label"><?php esc_html_e( 'Minutes', 'shinjiru-maintenance' ); ?></span></div>
@@ -56,7 +66,7 @@
 
           <div class="actions">
             <?php if ( $show_cta && $cta_url ) : ?>
-              <a href="<?php echo $cta_url; ?>" class="button"><?php echo $cta_text; ?> <span class="arrow" aria-hidden="true">↗</span></a>
+              <a href="<?php echo esc_url( $cta_url ); ?>" class="button"><?php echo esc_html( $cta_text ); ?> <span class="arrow" aria-hidden="true">↗</span></a>
             <?php endif; ?>
             <?php if ( $enable_password ) : ?>
               <button class="button" type="button" onclick="var d=document.querySelector('details.access');if(d){d.open=true;}var inp=document.getElementById('password');if(inp){inp.focus();}"><?php esc_html_e( 'Enter Password', 'shinjiru-maintenance' ); ?> <span class="arrow" aria-hidden="true">↗</span></button>
@@ -87,10 +97,10 @@
     </main>
 
     <footer class="bottom">
-      <p><?php echo $footer_text; ?></p>
+      <p><?php echo wp_kses_post( $footer_text ); ?></p>
       <p><?php esc_html_e( 'Thank you for your patience.', 'shinjiru-maintenance' ); ?></p>
     </footer>
   </div>
-  <script src="<?php echo esc_url( SHINJIRU_MAINTENANCE_URL . 'assets/js/countdown.js' ); ?>"></script>
+  <?php wp_footer(); ?>
 </body>
 </html>

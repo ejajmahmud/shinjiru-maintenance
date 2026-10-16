@@ -99,6 +99,24 @@ class Template_Engine {
 			'github'    => ! empty( $settings['social_github'] ) ? esc_url( $settings['social_github'] ) : '',
 		];
 
+		// Register actions to cleanly enqueue styles and scripts for the template
+		add_action( 'wp_enqueue_scripts', function() {
+			wp_enqueue_style(
+				'shinjiru-maintenance-templates',
+				SHINJIRU_MAINTENANCE_URL . 'assets/css/templates.css',
+				[],
+				SHINJIRU_MAINTENANCE_VERSION
+			);
+
+			wp_enqueue_script(
+				'shinjiru-maintenance-countdown',
+				SHINJIRU_MAINTENANCE_URL . 'assets/js/countdown.js',
+				[],
+				SHINJIRU_MAINTENANCE_VERSION,
+				true
+			);
+		} );
+
 		// Include the template
 		include $file;
 	}
