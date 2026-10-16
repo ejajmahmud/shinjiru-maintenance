@@ -269,6 +269,46 @@
   box-shadow: 0 0 0 1px var(--shinjiru-red);
 }
 
+/* Template Preview Thumbnails */
+.shinjiru-tpl-preview-thumb {
+  width: 100%;
+  height: 180px;
+  background: #E2E8F0;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--shinjiru-border);
+}
+
+.shinjiru-tpl-preview-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.25s ease;
+}
+
+.shinjiru-tpl-card:hover .shinjiru-tpl-preview-thumb img {
+  transform: scale(1.03);
+}
+
+.shinjiru-tpl-thumb-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.shinjiru-tpl-card:hover .shinjiru-tpl-thumb-overlay {
+  opacity: 1;
+}
+
 .shinjiru-tpl-preview-header {
   display: flex;
   justify-content: space-between;

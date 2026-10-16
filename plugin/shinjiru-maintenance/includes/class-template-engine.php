@@ -77,7 +77,8 @@ class Template_Engine {
 		$headline    = esc_html( $settings['headline'] );
 		$description = wp_kses_post( $settings['description'] );
 		$footer_text = wp_kses_post( $settings['footer_text'] );
-		$logo_url    = ! empty( $settings['logo_url'] ) ? esc_url( $settings['logo_url'] ) : '';
+		$default_logo = SHINJIRU_MAINTENANCE_URL . 'assets/images/shinjiru-logo.png';
+		$logo_url    = ! empty( $settings['logo_url'] ) ? esc_url( $settings['logo_url'] ) : esc_url( $default_logo );
 		$custom_css  = ! empty( $settings['custom_css'] ) ? $settings['custom_css'] : '';
 		
 		$show_cta    = ! empty( $settings['show_cta'] );

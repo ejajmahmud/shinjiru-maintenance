@@ -388,8 +388,17 @@ class Admin {
 				foreach ( $templates as $id => $tpl ) : 
 					$is_active = ( $settings['template'] === $id );
 					$preview_url = add_query_arg( 'shinjiru_preview', $id, home_url( '/' ) );
+					$preview_img = SHINJIRU_MAINTENANCE_URL . 'assets/images/previews/' . $id . '.svg';
 				?>
 					<div class="shinjiru-tpl-card <?php echo $is_active ? 'is-active' : ''; ?>">
+						<div class="shinjiru-tpl-preview-thumb">
+							<img src="<?php echo esc_url( $preview_img ); ?>" alt="<?php echo esc_attr( $tpl['name'] ); ?> Preview" loading="lazy" />
+							<div class="shinjiru-tpl-thumb-overlay">
+								<a href="<?php echo esc_url( $preview_url ); ?>" target="_blank" class="button button-small button-primary">
+									<span class="dashicons dashicons-external" style="vertical-align:text-top; font-size:14px; width:14px; height:14px;"></span> <?php esc_html_e( 'Live Preview', 'shinjiru-maintenance' ); ?>
+								</a>
+							</div>
+						</div>
 						<div class="shinjiru-tpl-preview-header">
 							<span class="shinjiru-tpl-badge"><?php echo esc_html( $tpl['name'] ); ?></span>
 							<a href="<?php echo esc_url( $preview_url ); ?>" target="_blank" class="button button-small"><?php esc_html_e( 'Preview', 'shinjiru-maintenance' ); ?></a>
@@ -445,8 +454,17 @@ class Admin {
 				<?php foreach ( $templates as $id => $tpl ) : 
 					$is_active = ( $settings['template'] === $id );
 					$preview_url = add_query_arg( 'shinjiru_preview', $id, home_url( '/' ) );
+					$preview_img = SHINJIRU_MAINTENANCE_URL . 'assets/images/previews/' . $id . '.svg';
 				?>
 					<div class="shinjiru-tpl-card <?php echo $is_active ? 'is-active' : ''; ?>">
+						<div class="shinjiru-tpl-preview-thumb">
+							<img src="<?php echo esc_url( $preview_img ); ?>" alt="<?php echo esc_attr( $tpl['name'] ); ?> Preview" loading="lazy" />
+							<div class="shinjiru-tpl-thumb-overlay">
+								<a href="<?php echo esc_url( $preview_url ); ?>" target="_blank" class="button button-small button-primary">
+									<span class="dashicons dashicons-external" style="vertical-align:text-top; font-size:14px; width:14px; height:14px;"></span> <?php esc_html_e( 'Live Preview', 'shinjiru-maintenance' ); ?>
+								</a>
+							</div>
+						</div>
 						<div class="shinjiru-tpl-preview-header">
 							<span class="shinjiru-tpl-badge"><?php echo esc_html( $tpl['name'] ); ?></span>
 							<a href="<?php echo esc_url( $preview_url ); ?>" target="_blank" class="button button-small"><?php esc_html_e( 'Preview', 'shinjiru-maintenance' ); ?></a>
