@@ -18,20 +18,22 @@ Whether you are performing server updates, redesigning an active WooCommerce sto
 
 ### Why Shinjiru Maintenance?
 
-* **Dual-Mode SEO Protection:**
+* **4 Dedicated Site Operating Modes:**
+  * **Disabled (Live):** Standard site operation. Pages are fully accessible to all visitors and search engines.
+  * **Lock Site Mode:** Restricts the entire front-end behind a secure password gate with 24-hour session authorization and instant bypass for logged-in WordPress administrators.
   * **Maintenance Mode:** Returns HTTP 503 (Service Unavailable) with a configurable `Retry-After` header and `noindex, nofollow` directives, ensuring search engines do not de-index your site during routine maintenance.
   * **Coming Soon Mode:** Returns HTTP 200 (OK) with configurable indexing options, ideal for pre-launch teasers and early search presence.
-* **6 High-Fidelity Original Templates:**
-  * Minimal Professional (Distraction-free typographic simplicity)
-  * Corporate Enterprise (Structured corporate layout with official system notice badge)
-  * Dark Cyber Technology (Sleek dark theme with cyber accents and countdown cards)
-  * Modern Editorial (Refined serif aesthetic with timeless layout)
-  * Split Visual Hero (Two-column layout with architectural visual branding)
-  * Calm Aurora Gradient (Frosted glassmorphism with soft modern gradient)
+* **6 High-Fidelity Original Designer Skins:**
+  * Modern Editorial (Refined serif aesthetic, warm paper tones, and timeless layout)
+  * Minimal (Quiet, focused, monochromatic, and precise)
+  * Corporate (Structured enterprise layout with official system notice badge)
+  * After Hours / Dark Tech (Sleek dark theme with cyber accents and monospace rhythm)
+  * Architectural / Split (Two-column layout with an original architectural vector art study)
+  * Soft Light / Calm Gradient (Soft ambient atmosphere and generous spacing)
 * **Hardened Enterprise Access Controls:**
   * Role-based bypass for authorized WordPress user roles (Administrators, Editors, Authors).
   * Secret Bypass URL with cryptographically secure HMAC tokens and one-click revocation.
-  * Front-end Password Protection powered by standard WordPress cryptographic hashing (`wp_hash_password`).
+  * Front-end Password Protection powered by standard WordPress cryptographic hashing (`wp_hash_password`) and 24h HMAC session cookies.
   * Granular IP Allowlist with IPv4, IPv6, and CIDR subnet support (`10.0.0.0/8`, `192.168.1.0/24`).
 * **Timezone-Aware Scheduling:**
   * Automated activation and deactivation based on your WordPress site timezone.
