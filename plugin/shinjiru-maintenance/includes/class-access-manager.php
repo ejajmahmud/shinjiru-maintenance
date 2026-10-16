@@ -24,18 +24,22 @@ class Access_Manager {
 	public static function has_access( array $settings ) {
 		// 1. Check logged-in user roles & capabilities
 		if ( is_user_logged_in() ) {
-			$allowed_roles = ! empty( $settings['allowed_roles'] ) ? (array) $settings['allowed_roles'] : [ 'administrator' ];
-			$user = wp_get_current_user();
-			if ( $user && ! empty( $user->roles ) ) {
-				foreach ( $user->roles as $role ) {
-					if ( in_array( $role, $allowed_roles, true ) ) {
-						return true;
+			// If allow_admin is enabled, administrators and allowed roles bypass automatically
+			$allow_admin = ! isset( $settings['allow_admin'] ) || ! empty( $settings['allow_admin'] );
+			if ( $allow_admin ) {
+				$allowed_roles = ! empty( $settings['allowed_roles'] ) ? (array) $settings['allowed_roles'] : [ 'administrator' ];
+				$user = wp_get_current_user();
+				if ( $user && ! empty( $user->roles ) ) {
+					foreach ( $user->roles as $role ) {
+						if ( in_array( $role, $allowed_roles, true ) ) {
+							return true;
+						}
 					}
 				}
-			}
-			// Administrators with manage_options always retain bypass access to prevent lockouts
-			if ( current_user_can( 'manage_options' ) ) {
-				return true;
+				// Administrators with manage_options always retain bypass access
+				if ( current_user_can( 'manage_options' ) ) {
+					return true;
+				}
 			}
 		}
 
@@ -62,12 +66,14 @@ class Access_Manager {
 			return true;
 		}
 
-		// 5. Check if visitor is submitting valid password
-		if ( ! empty( $settings['enable_password'] ) && ! empty( $settings['password_hash'] ) && isset( $_POST['shinjiru_password'] ) ) {
+		// 5. Check if visitor is submitting valid password (applicable in 'locked' mode or when enable_password is on)
+		$password_active = ( 'locked' === $settings['status'] ) || ! empty( $settings['enable_password'] );
+		if ( $password_active && ! empty( $settings['password_hash'] ) && isset( $_POST['shinjiru_password'] ) ) {
 			if ( isset( $_POST['shinjiru_pass_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['shinjiru_pass_nonce'] ) ), 'shinjiru_pass_action' ) ) {
 				$submitted_password = (string) wp_unslash( $_POST['shinjiru_password'] );
 				if ( wp_check_password( $submitted_password, $settings['password_hash'] ) ) {
-					self::set_bypass_cookie( 24 ); // 24 hours access on password
+					$session_duration = ! empty( $settings['password_session_hours'] ) ? (int) $settings['password_session_hours'] : 24;
+					self::set_bypass_cookie( $session_duration );
 					return true;
 				}
 			}

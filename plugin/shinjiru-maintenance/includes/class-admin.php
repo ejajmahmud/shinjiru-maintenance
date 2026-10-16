@@ -96,8 +96,16 @@ class Admin {
 			return;
 		}
 
-		$label = ( 'maintenance' === $status ) ? __( 'Maintenance Active', 'shinjiru-maintenance' ) : __( 'Coming Soon Active', 'shinjiru-maintenance' );
-		$class = ( 'maintenance' === $status ) ? 'shinjiru-bar-maintenance' : 'shinjiru-bar-comingsoon';
+		if ( 'maintenance' === $status ) {
+			$label = __( 'Maintenance Active', 'shinjiru-maintenance' );
+			$class = 'shinjiru-bar-maintenance';
+		} elseif ( 'locked' === $status ) {
+			$label = __( 'Site Locked (Password)', 'shinjiru-maintenance' );
+			$class = 'shinjiru-bar-locked';
+		} else {
+			$label = __( 'Coming Soon Active', 'shinjiru-maintenance' );
+			$class = 'shinjiru-bar-comingsoon';
+		}
 
 		$wp_admin_bar->add_node( [
 			'id'    => 'shinjiru-maint-status',
@@ -217,11 +225,13 @@ class Admin {
 				</div>
 			</div>
 
-			<?php if ( ! empty( $notice ) ) : ?>
-				<div class="notice notice-<?php echo esc_attr( $notice['type'] ); ?> is-dismissible">
-					<p><?php echo esc_html( $notice['msg'] ); ?></p>
-				</div>
-			<?php endif; ?>
+			<div id="shinjiru-notices-container">
+				<?php if ( ! empty( $notice ) ) : ?>
+					<div class="notice notice-<?php echo esc_attr( $notice['type'] ); ?> is-dismissible">
+						<p><?php echo esc_html( $notice['msg'] ); ?></p>
+					</div>
+				<?php endif; ?>
+			</div>
 
 			<nav class="nav-tab-wrapper shinjiru-tabs">
 				<?php foreach ( $tabs as $tab_key => $tab_data ) : ?>
@@ -281,11 +291,13 @@ class Admin {
 		?>
 		<div class="shinjiru-section">
 			<h2><?php esc_html_e( 'Mode & Interception Status', 'shinjiru-maintenance' ); ?></h2>
-			<p class="description"><?php esc_html_e( 'Select whether your website is currently live, undergoing maintenance, or in pre-launch coming soon mode.', 'shinjiru-maintenance' ); ?></p>
+			<p class="description"><?php esc_html_e( 'Select whether your website is currently live, password-locked, undergoing maintenance, or in pre-launch coming soon mode.', 'shinjiru-maintenance' ); ?></p>
 
 			<div class="shinjiru-mode-grid">
 				<label class="shinjiru-mode-card <?php echo ( 'off' === $settings['status'] ) ? 'is-selected' : ''; ?>">
-					<input type="radio" name="shinjiru_settings[status]" value="off" <?php checked( $settings['status'], 'off' ); ?> />
+					<div class="shinjiru-mode-radio-wrap">
+						<input type="radio" name="shinjiru_settings[status]" value="off" <?php checked( $settings['status'], 'off' ); ?> />
+					</div>
 					<div class="shinjiru-mode-content">
 						<span class="dashicons dashicons-yes-alt shinjiru-mode-icon text-success"></span>
 						<h3><?php esc_html_e( 'Disabled (Live)', 'shinjiru-maintenance' ); ?></h3>
@@ -293,8 +305,21 @@ class Admin {
 					</div>
 				</label>
 
+				<label class="shinjiru-mode-card <?php echo ( 'locked' === $settings['status'] ) ? 'is-selected' : ''; ?>">
+					<div class="shinjiru-mode-radio-wrap">
+						<input type="radio" name="shinjiru_settings[status]" value="locked" <?php checked( $settings['status'], 'locked' ); ?> />
+					</div>
+					<div class="shinjiru-mode-content">
+						<span class="dashicons dashicons-lock shinjiru-mode-icon text-primary"></span>
+						<h3><?php esc_html_e( 'Lock Site Mode', 'shinjiru-maintenance' ); ?></h3>
+						<p><?php esc_html_e( 'Completely locks down the site with a password gate. Visitors must enter the password to view the site.', 'shinjiru-maintenance' ); ?></p>
+					</div>
+				</label>
+
 				<label class="shinjiru-mode-card <?php echo ( 'maintenance' === $settings['status'] ) ? 'is-selected' : ''; ?>">
-					<input type="radio" name="shinjiru_settings[status]" value="maintenance" <?php checked( $settings['status'], 'maintenance' ); ?> />
+					<div class="shinjiru-mode-radio-wrap">
+						<input type="radio" name="shinjiru_settings[status]" value="maintenance" <?php checked( $settings['status'], 'maintenance' ); ?> />
+					</div>
 					<div class="shinjiru-mode-content">
 						<span class="dashicons dashicons-hammer shinjiru-mode-icon text-warning"></span>
 						<h3><?php esc_html_e( 'Maintenance Mode', 'shinjiru-maintenance' ); ?></h3>
@@ -303,13 +328,81 @@ class Admin {
 				</label>
 
 				<label class="shinjiru-mode-card <?php echo ( 'coming_soon' === $settings['status'] ) ? 'is-selected' : ''; ?>">
-					<input type="radio" name="shinjiru_settings[status]" value="coming_soon" <?php checked( $settings['status'], 'coming_soon' ); ?> />
+					<div class="shinjiru-mode-radio-wrap">
+						<input type="radio" name="shinjiru_settings[status]" value="coming_soon" <?php checked( $settings['status'], 'coming_soon' ); ?> />
+					</div>
 					<div class="shinjiru-mode-content">
 						<span class="dashicons dashicons-flag shinjiru-mode-icon text-info"></span>
 						<h3><?php esc_html_e( 'Coming Soon Mode', 'shinjiru-maintenance' ); ?></h3>
 						<p><?php esc_html_e( 'Returns HTTP 200 OK. Ideal for pre-launch announcements, teaser landing pages, and early audience building.', 'shinjiru-maintenance' ); ?></p>
 					</div>
 				</label>
+			</div>
+		</div>
+
+		<div class="shinjiru-section" id="shinjiru-lock-options-box">
+			<h2><?php esc_html_e( 'Password Protection & Access Settings', 'shinjiru-maintenance' ); ?></h2>
+			<p class="description"><?php esc_html_e( 'Configure the site password and bypass permissions for Lock Site Mode and visitor preview gates.', 'shinjiru-maintenance' ); ?></p>
+			
+			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row"><label for="new_password_main"><?php esc_html_e( 'Site Password', 'shinjiru-maintenance' ); ?></label></th>
+					<td>
+						<input type="password" id="new_password_main" name="new_password" value="" class="regular-text" placeholder="<?php esc_attr_e( 'Enter password to protect site', 'shinjiru-maintenance' ); ?>" autocomplete="new-password" />
+						<p class="description">
+							<?php if ( ! empty( $settings['password_hash'] ) ) : ?>
+								<span class="dashicons dashicons-yes text-success"></span> <strong><?php esc_html_e( 'Active Password is set.', 'shinjiru-maintenance' ); ?></strong> <?php esc_html_e( 'Leave blank to keep current password, or enter a new one to change it.', 'shinjiru-maintenance' ); ?>
+							<?php else : ?>
+								<span class="dashicons dashicons-warning text-warning"></span> <em><?php esc_html_e( 'No password set yet. Please enter a password above to secure the site.', 'shinjiru-maintenance' ); ?></em>
+							<?php endif; ?>
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Allow Logged-In Users', 'shinjiru-maintenance' ); ?></th>
+					<td>
+						<label>
+							<input type="checkbox" name="shinjiru_settings[allow_admin]" value="1" <?php checked( ! isset( $settings['allow_admin'] ) || ! empty( $settings['allow_admin'] ) ); ?> />
+							<strong><?php esc_html_e( 'Allow logged-in WordPress administrators & authorized roles to bypass password protection without entering a password', 'shinjiru-maintenance' ); ?></strong>
+						</label>
+						<p class="description"><?php esc_html_e( 'When checked, logged-in admins see the full live site automatically without being prompted for the password.', 'shinjiru-maintenance' ); ?></p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="password_session_hours_main"><?php esc_html_e( 'Session Duration', 'shinjiru-maintenance' ); ?></label></th>
+					<td>
+						<input type="number" id="password_session_hours_main" name="shinjiru_settings[password_session_hours]" value="<?php echo esc_attr( isset( $settings['password_session_hours'] ) ? $settings['password_session_hours'] : 24 ); ?>" min="1" max="720" class="small-text" /> <?php esc_html_e( 'hours', 'shinjiru-maintenance' ); ?>
+						<p class="description"><?php esc_html_e( 'Default: 24 hours. Once visitors enter the correct password, they can browse the site freely for this duration.', 'shinjiru-maintenance' ); ?></p>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="shinjiru-section">
+			<h2><?php esc_html_e( 'Choose a Designer Skin / Template', 'shinjiru-maintenance' ); ?></h2>
+			<p class="description"><?php esc_html_e( 'Select the visual skin to display when the site is locked or in maintenance mode. Click Preview to see each skin live.', 'shinjiru-maintenance' ); ?></p>
+
+			<div class="shinjiru-template-grid">
+				<?php 
+				$templates = Template_Engine::get_templates();
+				foreach ( $templates as $id => $tpl ) : 
+					$is_active = ( $settings['template'] === $id );
+					$preview_url = add_query_arg( 'shinjiru_preview', $id, home_url( '/' ) );
+				?>
+					<div class="shinjiru-tpl-card <?php echo $is_active ? 'is-active' : ''; ?>">
+						<div class="shinjiru-tpl-preview-header">
+							<span class="shinjiru-tpl-badge"><?php echo esc_html( $tpl['name'] ); ?></span>
+							<a href="<?php echo esc_url( $preview_url ); ?>" target="_blank" class="button button-small"><?php esc_html_e( 'Preview', 'shinjiru-maintenance' ); ?></a>
+						</div>
+						<div class="shinjiru-tpl-body">
+							<p><?php echo esc_html( $tpl['description'] ); ?></p>
+							<label class="button <?php echo $is_active ? 'button-primary' : 'button-secondary'; ?> shinjiru-tpl-select-btn">
+								<input type="radio" name="shinjiru_settings[template]" value="<?php echo esc_attr( $id ); ?>" <?php checked( $is_active ); ?> style="display:none;" />
+								<span class="shinjiru-select-label"><?php echo $is_active ? esc_html__( 'Active Skin', 'shinjiru-maintenance' ) : esc_html__( 'Use This Skin', 'shinjiru-maintenance' ); ?></span>
+							</label>
+						</div>
+					</div>
+				<?php endforeach; ?>
 			</div>
 		</div>
 

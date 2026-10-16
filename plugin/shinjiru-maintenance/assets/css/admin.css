@@ -11,7 +11,23 @@
 
 .shinjiru-wrap {
   margin-top: 20px;
-  max-width: 1180px;
+  max-width: 1240px;
+}
+
+/* Prevent default WordPress admin notices from breaking header flow */
+.shinjiru-wrap > .notice,
+.shinjiru-wrap > .updated,
+.shinjiru-wrap > .error,
+.shinjiru-wrap > .update-nag {
+  margin: 15px 0 20px 0 !important;
+}
+
+#shinjiru-notices-container {
+  margin: 0 0 20px 0;
+}
+
+#shinjiru-notices-container .notice {
+  margin: 8px 0;
 }
 
 /* Header & Branding */
@@ -20,7 +36,7 @@
   justify-content: space-between;
   align-items: center;
   background: #ffffff;
-  padding: 24px 30px;
+  padding: 22px 28px;
   border-radius: var(--shinjiru-radius);
   border: 1px solid var(--shinjiru-border);
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
@@ -34,13 +50,13 @@
 }
 
 .shinjiru-header-logo {
-  max-height: 48px;
+  max-height: 44px;
   width: auto;
   object-fit: contain;
 }
 
 .shinjiru-header-title h1 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   color: var(--shinjiru-text);
   margin: 0;
@@ -60,37 +76,55 @@
 .shinjiru-tagline {
   margin: 4px 0 0;
   color: var(--shinjiru-muted);
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* Tabs */
 .shinjiru-tabs {
   margin-bottom: 0 !important;
-  border-bottom: 1px solid #CBD5E1;
+  border-bottom: 1px solid #CBD5E1 !important;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  background: transparent;
+  padding-top: 0;
 }
 
 .shinjiru-tabs .nav-tab {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
+  gap: 7px;
+  font-size: 13.5px;
   font-weight: 600;
-  padding: 10px 18px;
-  background: #F8FAFC;
-  border-color: #CBD5E1;
+  padding: 9px 14px;
+  background: #F1F5F9;
+  border: 1px solid #CBD5E1;
+  border-bottom: none;
   color: #475569;
+  margin-right: 4px;
+  border-radius: 6px 6px 0 0;
+  white-space: nowrap;
+  transition: all 0.15s ease;
 }
 
-.shinjiru-tabs .nav-tab-active {
+.shinjiru-tabs .nav-tab:hover {
   background: #FFFFFF;
-  border-bottom-color: #FFFFFF;
   color: var(--shinjiru-red);
 }
 
+.shinjiru-tabs .nav-tab-active,
+.shinjiru-tabs .nav-tab-active:hover {
+  background: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  border-bottom: 1px solid #FFFFFF !important;
+  color: var(--shinjiru-red) !important;
+  margin-bottom: -1px;
+}
+
 .shinjiru-tabs .nav-tab .dashicons {
-  font-size: 18px;
-  width: 18px;
-  height: 18px;
+  font-size: 17px;
+  width: 17px;
+  height: 17px;
 }
 
 /* Content Card */
@@ -98,7 +132,7 @@
   background: #FFFFFF;
   border: 1px solid #CBD5E1;
   border-top: none;
-  padding: 30px;
+  padding: 28px 32px;
   border-radius: 0 0 var(--shinjiru-radius) var(--shinjiru-radius);
   box-shadow: 0 2px 4px rgba(0,0,0,0.03);
 }
@@ -116,30 +150,43 @@
 }
 
 .shinjiru-section h2 {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
   color: var(--shinjiru-text);
   margin-top: 0;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
-/* Mode Selection Cards */
+/* 4-Column Mode Selection Cards */
 .shinjiru-mode-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  margin-top: 16px;
+  margin-top: 18px;
+}
+
+@media (max-width: 1200px) {
+  .shinjiru-mode-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .shinjiru-mode-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .shinjiru-mode-card {
   display: flex;
   align-items: flex-start;
-  padding: 20px;
+  padding: 18px;
   border: 2px solid var(--shinjiru-border);
   border-radius: var(--shinjiru-radius);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   background: #FAFBFD;
+  position: relative;
 }
 
 .shinjiru-mode-card:hover {
@@ -153,32 +200,44 @@
   box-shadow: 0 0 0 1px var(--shinjiru-red);
 }
 
+.shinjiru-mode-radio-wrap {
+  flex-shrink: 0;
+  margin-right: 12px;
+  padding-top: 2px;
+}
+
 .shinjiru-mode-card input[type="radio"] {
-  margin-top: 4px;
-  margin-right: 14px;
+  margin: 0 !important;
+  vertical-align: middle;
+}
+
+.shinjiru-mode-content {
+  flex-grow: 1;
 }
 
 .shinjiru-mode-content h3 {
   margin: 0 0 6px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--shinjiru-text);
 }
 
 .shinjiru-mode-content p {
   margin: 0;
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--shinjiru-muted);
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .shinjiru-mode-icon {
-  font-size: 24px;
-  width: 24px;
-  height: 24px;
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
   margin-bottom: 8px;
+  display: block;
 }
 
+.text-primary { color: #D32F2F; }
 .text-success { color: #16A34A; }
 .text-warning { color: #EA580C; }
 .text-info { color: #0284C7; }
@@ -301,6 +360,14 @@
 /* Admin bar status indicator styling */
 #wpadminbar .shinjiru-bar-maintenance {
   background: #DC2626 !important;
+  color: #FFFFFF !important;
+  font-weight: 700;
+  padding: 0 8px;
+  border-radius: 3px;
+}
+
+#wpadminbar .shinjiru-bar-locked {
+  background: #7C3AED !important;
   color: #FFFFFF !important;
   font-weight: 700;
   padding: 0 8px;

@@ -76,6 +76,12 @@
       }
     });
 
+    // Move any external WordPress notices into the dedicated notices container
+    var $notices = $('.shinjiru-wrap').find('.notice, .updated, .error, .update-nag, .is-dismissible').not('#shinjiru-notices-container .notice');
+    if ($notices.length) {
+      $('#shinjiru-notices-container').append($notices);
+    }
+
     // Prompt on token regeneration
     $('#shinjiru_regen_token_chk').on('change', function() {
       if ($(this).is(':checked')) {

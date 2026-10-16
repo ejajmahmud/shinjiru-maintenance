@@ -87,7 +87,8 @@ class Template_Engine {
 		$show_countdown   = ! empty( $settings['show_countdown'] );
 		$countdown_target = esc_attr( $settings['countdown_target'] );
 
-		$enable_password = ! empty( $settings['enable_password'] ) && ! empty( $settings['password_hash'] ) && ! $is_preview;
+		// In 'locked' mode, password gate is always active so visitors can unlock the site
+		$enable_password = ( 'locked' === $status || ( ! empty( $settings['enable_password'] ) && ! empty( $settings['password_hash'] ) ) ) && ! $is_preview;
 
 		$socials = [
 			'x'         => ! empty( $settings['social_x'] ) ? esc_url( $settings['social_x'] ) : '',

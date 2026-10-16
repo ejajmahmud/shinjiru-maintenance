@@ -22,7 +22,7 @@ class Config {
 	 */
 	public static function get_defaults() {
 		return [
-			// Mode: 'off', 'maintenance', 'coming_soon'
+			// Mode: 'off', 'locked', 'maintenance', 'coming_soon'
 			'status'                => 'off',
 			'page_title'            => __( 'Site Under Maintenance', 'shinjiru-maintenance' ),
 			'headline'              => __( 'We will be back shortly.', 'shinjiru-maintenance' ),
@@ -54,12 +54,14 @@ class Config {
 			'coming_soon_index'     => true, // allow indexing in coming soon
 
 			// Access Controls
-			'allowed_roles'         => [ 'administrator' ],
-			'enable_password'       => false,
-			'password_hash'         => '',
-			'bypass_token'          => wp_generate_password( 24, false ),
-			'bypass_expires_hours'  => 168, // 7 days
-			'ip_allowlist'          => '',
+			'allowed_roles'          => [ 'administrator' ],
+			'allow_admin'            => true, // Logged in WP users/admins bypass password protection
+			'enable_password'        => false,
+			'password_hash'          => '',
+			'password_session_hours' => 24, // 24 hours session
+			'bypass_token'           => wp_generate_password( 24, false ),
+			'bypass_expires_hours'   => 168, // 7 days
+			'ip_allowlist'           => '',
 
 			// Schedule Controls
 			'schedule_enabled'      => false,
@@ -106,7 +108,7 @@ class Config {
 		$output = [];
 
 		// Status
-		$allowed_statuses = [ 'off', 'maintenance', 'coming_soon' ];
+		$allowed_statuses = [ 'off', 'locked', 'maintenance', 'coming_soon' ];
 		$output['status'] = ( isset( $input['status'] ) && in_array( $input['status'], $allowed_statuses, true ) ) ? $input['status'] : 'off';
 
 		// Text fields
@@ -160,8 +162,10 @@ class Config {
 			$output['allowed_roles'] = [ 'administrator' ];
 		}
 
-		// Password
+		// Admin bypass toggle & password
+		$output['allow_admin'] = isset( $input['allow_admin'] ) ? ! empty( $input['allow_admin'] ) : true;
 		$output['enable_password'] = ! empty( $input['enable_password'] );
+		$output['password_session_hours'] = isset( $input['password_session_hours'] ) ? max( 1, min( 720, absint( $input['password_session_hours'] ) ) ) : 24;
 		$current = self::get_settings();
 		if ( ! empty( $input['new_password'] ) ) {
 			$output['password_hash'] = wp_hash_password( trim( $input['new_password'] ) );

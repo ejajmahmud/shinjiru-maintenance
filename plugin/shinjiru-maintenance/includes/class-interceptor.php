@@ -73,6 +73,10 @@ class Interceptor {
 			$retry_after = ! empty( $settings['retry_after'] ) ? (int) $settings['retry_after'] : 3600;
 			header( 'Retry-After: ' . $retry_after );
 			header( 'X-Robots-Tag: noindex, nofollow, noarchive', true );
+		} elseif ( 'locked' === $status ) {
+			// Password Locked Site Mode: HTTP 200 OK (or 401/403) with strict noindex
+			status_header( 200 );
+			header( 'X-Robots-Tag: noindex, nofollow, noarchive', true );
 		} else {
 			// Coming Soon mode: HTTP 200 OK
 			status_header( 200 );
