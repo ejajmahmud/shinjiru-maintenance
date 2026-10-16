@@ -1,0 +1,125 @@
+/* Shinjiru Maintenance - Universal Template Core Styling */
+:root {
+  --shinjiru-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  font-family: var(--shinjiru-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Accessibility: Visible Focus Ring */
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 3px solid #D32F2F;
+  outline-offset: 2px;
+}
+
+/* Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Password Gate Form Component */
+.shinjiru-gate-form {
+  margin-top: 24px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.shinjiru-gate-group {
+  display: flex;
+  gap: 8px;
+}
+
+.shinjiru-gate-input {
+  flex-grow: 1;
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid #CBD5E1;
+  font-size: 14px;
+}
+
+.shinjiru-gate-btn {
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+/* Countdown Card Component */
+.shinjiru-countdown-container {
+  display: flex;
+  gap: 12px;
+  margin: 28px 0;
+  flex-wrap: wrap;
+}
+
+.shinjiru-cd-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 68px;
+  padding: 12px 10px;
+  border-radius: 8px;
+}
+
+.shinjiru-cd-num {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.shinjiru-cd-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+/* Social icons list */
+.shinjiru-social-list {
+  display: flex;
+  gap: 14px;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+}
+
+.shinjiru-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.shinjiru-social-link:hover {
+  transform: translateY(-2px);
+}

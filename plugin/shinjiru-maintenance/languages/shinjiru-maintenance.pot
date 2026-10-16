@@ -1,0 +1,35 @@
+# Copyright (C) 2026 Ejaj Mahmud
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Shinjiru Maintenance 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/shinjiru-maintenance\n"
+"Last-Translator: Ejaj Mahmud\n"
+"Language-Team: English (United States)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-16T10:00:00+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: Shinjiru i18n\n"
+"X-Domain: shinjiru-maintenance\n"
+
+#: includes/class-config.php:26
+msgid "Site Under Maintenance"
+msgstr ""
+
+#: includes/class-config.php:27
+msgid "We will be back shortly."
+msgstr ""
+
+#: includes/class-config.php:28
+msgid "We are performing scheduled maintenance and updates to improve your experience. Thank you for your patience!"
+msgstr ""
+
+#: includes/class-admin.php:124
+msgid "Maintenance Active"
+msgstr ""
+
+#: includes/class-admin.php:124
+msgid "Coming Soon Active"
+msgstr ""
