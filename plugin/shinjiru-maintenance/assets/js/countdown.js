@@ -12,10 +12,10 @@
       var targetDate = new Date(targetStr).getTime();
       if (isNaN(targetDate)) return;
 
-      var daysEl = el.querySelector('.cd-days');
-      var hoursEl = el.querySelector('.cd-hours');
-      var minutesEl = el.querySelector('.cd-minutes');
-      var secondsEl = el.querySelector('.cd-seconds');
+      var daysEl = el.querySelector('.cd-days') || el.querySelectorAll('.num')[0];
+      var hoursEl = el.querySelector('.cd-hours') || el.querySelectorAll('.num')[1];
+      var minutesEl = el.querySelector('.cd-minutes') || el.querySelectorAll('.num')[2];
+      var secondsEl = el.querySelector('.cd-seconds') || el.querySelectorAll('.num')[3];
 
       function update() {
         var now = new Date().getTime();
@@ -34,10 +34,10 @@
         var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-        if (daysEl) daysEl.textContent = (days < 10 ? '0' : '') + days;
-        if (hoursEl) hoursEl.textContent = (hours < 10 ? '0' : '') + hours;
-        if (minutesEl) minutesEl.textContent = (minutes < 10 ? '0' : '') + minutes;
-        if (secondsEl) secondsEl.textContent = (seconds < 10 ? '0' : '') + seconds;
+        if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+        if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+        if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+        if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
       }
 
       update();

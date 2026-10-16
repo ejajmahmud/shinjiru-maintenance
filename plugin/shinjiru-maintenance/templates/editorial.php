@@ -1,132 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
   <meta charset="<?php bloginfo( 'charset' ); ?>">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
   <title><?php echo $title; ?></title>
   <link rel="stylesheet" href="<?php echo esc_url( SHINJIRU_MAINTENANCE_URL . 'assets/css/templates.css' ); ?>">
-  <style>
-    body.tpl-editorial {
-      background-color: #FDFBF7;
-      color: #2C2825;
-      font-family: Georgia, Cambria, "Times New Roman", Times, serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 50px 20px;
-    }
-    .edit-wrap {
-      max-width: 620px;
-      width: 100%;
-      text-align: center;
-    }
-    .edit-divider {
-      width: 48px;
-      height: 2px;
-      background: #D32F2F;
-      margin: 24px auto;
-    }
-    .edit-logo {
-      max-height: 50px;
-      margin: 0 auto 30px;
-    }
-    .edit-heading {
-      font-size: clamp(30px, 5.5vw, 46px);
-      font-weight: 400;
-      font-style: italic;
-      line-height: 1.2;
-      margin: 0 0 16px;
-      color: #1A1816;
-    }
-    .edit-desc {
-      font-size: 17px;
-      color: #5C554E;
-      line-height: 1.7;
-      margin: 0 0 32px;
-      font-family: var(--shinjiru-font);
-    }
-    .edit-btn {
-      display: inline-block;
-      background: #2C2825;
-      color: #FDFBF7;
-      padding: 12px 28px;
-      border-radius: 4px;
-      text-decoration: none;
-      font-family: var(--shinjiru-font);
-      font-weight: 600;
-      font-size: 14px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      transition: background 0.2s ease;
-    }
-    .edit-btn:hover { background: #5C554E; }
-    .edit-cd {
-      font-family: var(--shinjiru-font);
-    }
-    .edit-cd .shinjiru-cd-item {
-      background: #F3EFEA;
-      color: #2C2825;
-      border: 1px solid #E5DFD7;
-    }
-    .edit-footer {
-      margin-top: 52px;
-      font-size: 13px;
-      color: #8C827A;
-      font-family: var(--shinjiru-font);
-    }
-    <?php echo $custom_css; ?>
-  </style>
+  <?php if ( ! empty( $custom_css ) ) : ?>
+    <style><?php echo $custom_css; ?></style>
+  <?php endif; ?>
 </head>
-<body class="tpl-editorial">
-  <main class="edit-wrap" role="main">
-    <?php if ( $logo_url ) : ?>
-      <img src="<?php echo $logo_url; ?>" alt="Logo" class="edit-logo" />
-    <?php endif; ?>
-
-    <h1 class="edit-heading"><?php echo $headline; ?></h1>
-    <div class="edit-divider" role="presentation"></div>
-    <div class="edit-desc"><?php echo $description; ?></div>
-
-    <?php if ( $show_countdown && $countdown_target ) : ?>
-      <div class="shinjiru-countdown-container edit-cd" style="justify-content: center;" data-countdown-target="<?php echo $countdown_target; ?>" aria-label="<?php esc_attr_e( 'Countdown', 'shinjiru-maintenance' ); ?>">
-        <div class="shinjiru-cd-item"><span class="shinjiru-cd-num cd-days">00</span><span class="shinjiru-cd-label"><?php esc_html_e( 'Days', 'shinjiru-maintenance' ); ?></span></div>
-        <div class="shinjiru-cd-item"><span class="shinjiru-cd-num cd-hours">00</span><span class="shinjiru-cd-label"><?php esc_html_e( 'Hours', 'shinjiru-maintenance' ); ?></span></div>
-        <div class="shinjiru-cd-item"><span class="shinjiru-cd-num cd-minutes">00</span><span class="shinjiru-cd-label"><?php esc_html_e( 'Mins', 'shinjiru-maintenance' ); ?></span></div>
-        <div class="shinjiru-cd-item"><span class="shinjiru-cd-num cd-seconds">00</span><span class="shinjiru-cd-label"><?php esc_html_e( 'Secs', 'shinjiru-maintenance' ); ?></span></div>
+<body class="editorial">
+  <div class="page">
+    <header class="masthead">
+      <img class="logo" src="<?php echo $logo_url; ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
+      <div class="notice">
+        <span class="dot" aria-hidden="true"></span>
+        <?php 
+        if ( 'locked' === $status ) {
+          esc_html_e( 'Private / Password Protected', 'shinjiru-maintenance' );
+        } elseif ( 'coming_soon' === $status ) {
+          esc_html_e( 'Coming Soon / In Development', 'shinjiru-maintenance' );
+        } else {
+          esc_html_e( 'Scheduled Maintenance', 'shinjiru-maintenance' );
+        }
+        ?>
       </div>
-    <?php endif; ?>
+    </header>
 
-    <?php if ( $show_cta && $cta_url ) : ?>
-      <div><a href="<?php echo $cta_url; ?>" class="edit-btn"><?php echo $cta_text; ?></a></div>
-    <?php endif; ?>
+    <main class="content" id="main">
+      <div class="layout">
+        <div>
+          <p class="eyebrow">
+            <?php 
+            if ( 'locked' === $status ) {
+              esc_html_e( 'Restricted Access', 'shinjiru-maintenance' );
+            } elseif ( 'coming_soon' === $status ) {
+              esc_html_e( 'Something New is Coming', 'shinjiru-maintenance' );
+            } else {
+              esc_html_e( 'We’ll be right back', 'shinjiru-maintenance' );
+            }
+            ?>
+          </p>
+          <h1><?php echo $headline; ?></h1>
+          <div class="description"><?php echo $description; ?></div>
 
-    <?php if ( $enable_password ) : ?>
-      <div style="display:flex; justify-content:center; font-family:var(--shinjiru-font);">
-        <form method="post" action="" class="shinjiru-gate-form">
-          <?php wp_nonce_field( 'shinjiru_pass_action', 'shinjiru_pass_nonce' ); ?>
-          <div class="shinjiru-gate-group">
-            <input type="password" name="shinjiru_password" placeholder="<?php esc_attr_e( 'Reader access key', 'shinjiru-maintenance' ); ?>" required class="shinjiru-gate-input" aria-label="<?php esc_attr_e( 'Password', 'shinjiru-maintenance' ); ?>" />
-            <button type="submit" class="shinjiru-gate-btn edit-btn"><?php esc_html_e( 'Open', 'shinjiru-maintenance' ); ?></button>
+          <?php if ( $show_countdown && $countdown_target ) : ?>
+            <div class="countdown" data-countdown-target="<?php echo $countdown_target; ?>" aria-label="<?php esc_attr_e( 'Countdown', 'shinjiru-maintenance' ); ?>">
+              <div class="unit"><span class="num cd-days">00</span><span class="label"><?php esc_html_e( 'Days', 'shinjiru-maintenance' ); ?></span></div>
+              <div class="unit"><span class="num cd-hours">00</span><span class="label"><?php esc_html_e( 'Hours', 'shinjiru-maintenance' ); ?></span></div>
+              <div class="unit"><span class="num cd-minutes">00</span><span class="label"><?php esc_html_e( 'Minutes', 'shinjiru-maintenance' ); ?></span></div>
+              <div class="unit"><span class="num cd-seconds">00</span><span class="label"><?php esc_html_e( 'Seconds', 'shinjiru-maintenance' ); ?></span></div>
+            </div>
+          <?php endif; ?>
+
+          <div class="actions">
+            <?php if ( $show_cta && $cta_url ) : ?>
+              <a href="<?php echo $cta_url; ?>" class="button"><?php echo $cta_text; ?> <span class="arrow" aria-hidden="true">↗</span></a>
+            <?php endif; ?>
+            <?php if ( $enable_password ) : ?>
+              <button class="button" type="button" onclick="var d=document.querySelector('details.access');if(d){d.open=true;}var inp=document.getElementById('password');if(inp){inp.focus();}"><?php esc_html_e( 'Enter Password', 'shinjiru-maintenance' ); ?> <span class="arrow" aria-hidden="true">↗</span></button>
+            <?php endif; ?>
           </div>
-        </form>
-      </div>
-    <?php endif; ?>
 
-    <footer class="edit-footer">
-      <?php if ( array_filter( $socials ) ) : ?>
-        <ul class="shinjiru-social-list" style="justify-content: center;">
-          <?php foreach ( $socials as $network => $surl ) : if ( empty( $surl ) ) continue; ?>
-            <li><a href="<?php echo $surl; ?>" target="_blank" rel="noopener noreferrer" class="shinjiru-social-link" style="background:#F3EFEA; color:#2C2825;" aria-label="<?php echo esc_attr( ucfirst( $network ) ); ?>">
-              &bull;
-            </a></li>
-          <?php endforeach; ?>
-        </ul>
-      <?php endif; ?>
-      <p style="margin-top:16px;"><?php echo $footer_text; ?></p>
+          <?php if ( $enable_password ) : ?>
+            <details class="access" <?php echo ( 'locked' === $status ) ? 'open' : ''; ?>>
+              <summary><?php esc_html_e( 'Have an access password?', 'shinjiru-maintenance' ); ?></summary>
+              <form class="gate" method="post" action="">
+                <?php wp_nonce_field( 'shinjiru_pass_action', 'shinjiru_pass_nonce' ); ?>
+                <label for="password"><?php esc_html_e( 'Access password', 'shinjiru-maintenance' ); ?></label>
+                <div class="field">
+                  <input id="password" name="shinjiru_password" type="password" autocomplete="current-password" required placeholder="<?php esc_attr_e( 'Enter site password', 'shinjiru-maintenance' ); ?>">
+                  <button type="submit"><?php esc_html_e( 'Continue', 'shinjiru-maintenance' ); ?></button>
+                </div>
+                <p class="hint" role="status"><?php esc_html_e( 'Enter the assigned password to unlock access for 24 hours.', 'shinjiru-maintenance' ); ?></p>
+              </form>
+            </details>
+          <?php endif; ?>
+        </div>
+
+        <aside class="side-note">
+          <p><?php esc_html_e( 'Taking a moment to make things better.', 'shinjiru-maintenance' ); ?></p>
+          <p><?php esc_html_e( 'We appreciate you stopping by.', 'shinjiru-maintenance' ); ?></p>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="bottom">
+      <p><?php echo $footer_text; ?></p>
+      <p><?php esc_html_e( 'Thank you for your patience.', 'shinjiru-maintenance' ); ?></p>
     </footer>
-  </main>
+  </div>
   <script src="<?php echo esc_url( SHINJIRU_MAINTENANCE_URL . 'assets/js/countdown.js' ); ?>"></script>
 </body>
 </html>

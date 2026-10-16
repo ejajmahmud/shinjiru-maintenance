@@ -2,10 +2,15 @@
   'use strict';
 
   $(document).ready(function() {
-    // Mode card radio toggle active class
+    // Mode card radio toggle active class and dynamic mode settings visibility
     $('.shinjiru-mode-card input[type="radio"]').on('change', function() {
+      var selectedMode = $(this).val();
       $('.shinjiru-mode-card').removeClass('is-selected');
       $(this).closest('.shinjiru-mode-card').addClass('is-selected');
+
+      // Toggle dynamic mode settings blocks
+      $('.shinjiru-mode-settings-block').hide();
+      $('#shinjiru-mode-block-' + selectedMode).fadeIn(150);
     });
 
     // Template selection radio toggle

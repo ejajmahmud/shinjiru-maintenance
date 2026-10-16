@@ -340,44 +340,6 @@ class Admin {
 			</div>
 		</div>
 
-		<div class="shinjiru-section" id="shinjiru-lock-options-box">
-			<h2><?php esc_html_e( 'Password Protection & Access Settings', 'shinjiru-maintenance' ); ?></h2>
-			<p class="description"><?php esc_html_e( 'Configure the site password and bypass permissions for Lock Site Mode and visitor preview gates.', 'shinjiru-maintenance' ); ?></p>
-			
-			<table class="form-table" role="presentation">
-				<tr>
-					<th scope="row"><label for="new_password_main"><?php esc_html_e( 'Site Password', 'shinjiru-maintenance' ); ?></label></th>
-					<td>
-						<input type="password" id="new_password_main" name="new_password" value="" class="regular-text" placeholder="<?php esc_attr_e( 'Enter password to protect site', 'shinjiru-maintenance' ); ?>" autocomplete="new-password" />
-						<p class="description">
-							<?php if ( ! empty( $settings['password_hash'] ) ) : ?>
-								<span class="dashicons dashicons-yes text-success"></span> <strong><?php esc_html_e( 'Active Password is set.', 'shinjiru-maintenance' ); ?></strong> <?php esc_html_e( 'Leave blank to keep current password, or enter a new one to change it.', 'shinjiru-maintenance' ); ?>
-							<?php else : ?>
-								<span class="dashicons dashicons-warning text-warning"></span> <em><?php esc_html_e( 'No password set yet. Please enter a password above to secure the site.', 'shinjiru-maintenance' ); ?></em>
-							<?php endif; ?>
-						</p>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><?php esc_html_e( 'Allow Logged-In Users', 'shinjiru-maintenance' ); ?></th>
-					<td>
-						<label>
-							<input type="checkbox" name="shinjiru_settings[allow_admin]" value="1" <?php checked( ! isset( $settings['allow_admin'] ) || ! empty( $settings['allow_admin'] ) ); ?> />
-							<strong><?php esc_html_e( 'Allow logged-in WordPress administrators & authorized roles to bypass password protection without entering a password', 'shinjiru-maintenance' ); ?></strong>
-						</label>
-						<p class="description"><?php esc_html_e( 'When checked, logged-in admins see the full live site automatically without being prompted for the password.', 'shinjiru-maintenance' ); ?></p>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><label for="password_session_hours_main"><?php esc_html_e( 'Session Duration', 'shinjiru-maintenance' ); ?></label></th>
-					<td>
-						<input type="number" id="password_session_hours_main" name="shinjiru_settings[password_session_hours]" value="<?php echo esc_attr( isset( $settings['password_session_hours'] ) ? $settings['password_session_hours'] : 24 ); ?>" min="1" max="720" class="small-text" /> <?php esc_html_e( 'hours', 'shinjiru-maintenance' ); ?>
-						<p class="description"><?php esc_html_e( 'Default: 24 hours. Once visitors enter the correct password, they can browse the site freely for this duration.', 'shinjiru-maintenance' ); ?></p>
-					</td>
-				</tr>
-			</table>
-		</div>
-
 		<div class="shinjiru-section">
 			<h2><?php esc_html_e( 'Choose a Designer Skin / Template', 'shinjiru-maintenance' ); ?></h2>
 			<p class="description"><?php esc_html_e( 'Select the visual skin to display when the site is locked or in maintenance mode. Click Preview to see each skin live.', 'shinjiru-maintenance' ); ?></p>
@@ -415,24 +377,115 @@ class Admin {
 			</div>
 		</div>
 
-		<div class="shinjiru-section">
-			<h2><?php esc_html_e( 'Search Engine & HTTP Response Settings', 'shinjiru-maintenance' ); ?></h2>
+		<!-- 1. Disabled (Live) Mode Settings -->
+		<div class="shinjiru-section shinjiru-mode-settings-block" id="shinjiru-mode-block-off" style="<?php echo ( 'off' === $settings['status'] ) ? '' : 'display:none;'; ?>">
+			<h2><?php esc_html_e( 'Disabled (Live Mode) Status', 'shinjiru-maintenance' ); ?></h2>
+			<div class="notice notice-info inline" style="margin: 12px 0 16px; padding: 12px 16px;">
+				<p><strong><span class="dashicons dashicons-yes-alt text-success"></span> <?php esc_html_e( 'The website is currently normal and fully accessible.', 'shinjiru-maintenance' ); ?></strong></p>
+				<p class="description"><?php esc_html_e( 'All visitors, customers, and search engine crawlers can view all pages without restriction. If an automated schedule is enabled in the Schedule tab, it will automatically activate maintenance mode during its configured window.', 'shinjiru-maintenance' ); ?></p>
+			</div>
+		</div>
+
+		<!-- 2. Lock Site Mode Settings -->
+		<div class="shinjiru-section shinjiru-mode-settings-block" id="shinjiru-mode-block-locked" style="<?php echo ( 'locked' === $settings['status'] ) ? '' : 'display:none;'; ?>">
+			<h2><?php esc_html_e( 'Lock Site Mode — Password Protection Settings', 'shinjiru-maintenance' ); ?></h2>
+			<p class="description"><?php esc_html_e( 'Configure the site password and bypass permissions for Lock Site Mode. Visitors see the selected skin with an open password prompt.', 'shinjiru-maintenance' ); ?></p>
+			
 			<table class="form-table" role="presentation">
 				<tr>
-					<th scope="row"><label for="shinjiru_retry_after"><?php esc_html_e( 'Maintenance Retry-After (seconds)', 'shinjiru-maintenance' ); ?></label></th>
+					<th scope="row"><label for="new_password_locked"><?php esc_html_e( 'Set Site Password', 'shinjiru-maintenance' ); ?></label></th>
 					<td>
-						<input type="number" id="shinjiru_retry_after" name="shinjiru_settings[retry_after]" value="<?php echo esc_attr( $settings['retry_after'] ); ?>" min="60" max="86400" step="60" class="regular-text" />
-						<p class="description"><?php esc_html_e( 'Sent as the Retry-After header when in Maintenance Mode (default: 3600 seconds / 1 hour).', 'shinjiru-maintenance' ); ?></p>
+						<input type="password" id="new_password_locked" name="new_password" value="" class="regular-text" placeholder="<?php esc_attr_e( 'Enter password to protect site', 'shinjiru-maintenance' ); ?>" autocomplete="new-password" />
+						<p class="description">
+							<?php if ( ! empty( $settings['password_hash'] ) ) : ?>
+								<span class="dashicons dashicons-yes text-success"></span> <strong><?php esc_html_e( 'Active Password is set.', 'shinjiru-maintenance' ); ?></strong> <?php esc_html_e( 'Leave blank to keep existing password, or enter a new one to update.', 'shinjiru-maintenance' ); ?>
+							<?php else : ?>
+								<span class="dashicons dashicons-warning text-warning"></span> <em><?php esc_html_e( 'No password set yet. Please set a password so visitors can unlock the site.', 'shinjiru-maintenance' ); ?></em>
+							<?php endif; ?>
+						</p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php esc_html_e( 'Coming Soon Indexing', 'shinjiru-maintenance' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Allow Logged-In Users', 'shinjiru-maintenance' ); ?></th>
+					<td>
+						<label>
+							<input type="checkbox" name="shinjiru_settings[allow_admin]" value="1" <?php checked( ! isset( $settings['allow_admin'] ) || ! empty( $settings['allow_admin'] ) ); ?> />
+							<strong><?php esc_html_e( 'Allow logged-in WordPress administrators & authorized roles to bypass password protection', 'shinjiru-maintenance' ); ?></strong>
+						</label>
+						<p class="description"><?php esc_html_e( 'When checked, logged-in admins see the full live site automatically without being prompted for the password.', 'shinjiru-maintenance' ); ?></p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="password_session_hours_locked"><?php esc_html_e( 'Session Duration', 'shinjiru-maintenance' ); ?></label></th>
+					<td>
+						<input type="number" id="password_session_hours_locked" name="shinjiru_settings[password_session_hours]" value="<?php echo esc_attr( isset( $settings['password_session_hours'] ) ? $settings['password_session_hours'] : 24 ); ?>" min="1" max="720" class="small-text" /> <?php esc_html_e( 'hours', 'shinjiru-maintenance' ); ?>
+						<p class="description"><?php esc_html_e( 'Default: 24 hours. Once visitors enter the correct password, they can browse the site freely for this duration.', 'shinjiru-maintenance' ); ?></p>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<!-- 3. Maintenance Mode Settings -->
+		<div class="shinjiru-section shinjiru-mode-settings-block" id="shinjiru-mode-block-maintenance" style="<?php echo ( 'maintenance' === $settings['status'] ) ? '' : 'display:none;'; ?>">
+			<h2><?php esc_html_e( 'Maintenance Mode Settings', 'shinjiru-maintenance' ); ?></h2>
+			<p class="description"><?php esc_html_e( 'Configure search engine HTTP headers and password bypass options during temporary maintenance.', 'shinjiru-maintenance' ); ?></p>
+			
+			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row"><label for="shinjiru_retry_after_maint"><?php esc_html_e( 'Retry-After Header (seconds)', 'shinjiru-maintenance' ); ?></label></th>
+					<td>
+						<input type="number" id="shinjiru_retry_after_maint" name="shinjiru_settings[retry_after]" value="<?php echo esc_attr( $settings['retry_after'] ); ?>" min="60" max="86400" step="60" class="regular-text" />
+						<p class="description"><?php esc_html_e( 'Sent as the Retry-After header with HTTP 503 Service Unavailable (default: 3600 seconds / 1 hour). Informs Googlebot and search engines when to return.', 'shinjiru-maintenance' ); ?></p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Allow Visitor Password Gate', 'shinjiru-maintenance' ); ?></th>
+					<td>
+						<label>
+							<input type="checkbox" name="shinjiru_settings[enable_password]" value="1" <?php checked( ! empty( $settings['enable_password'] ) ); ?> />
+							<?php esc_html_e( 'Display password entry form on the maintenance screen so clients/staff can unlock the site', 'shinjiru-maintenance' ); ?>
+						</label>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<!-- 4. Coming Soon Mode Settings -->
+		<div class="shinjiru-section shinjiru-mode-settings-block" id="shinjiru-mode-block-coming_soon" style="<?php echo ( 'coming_soon' === $settings['status'] ) ? '' : 'display:none;'; ?>">
+			<h2><?php esc_html_e( 'Coming Soon Mode Settings', 'shinjiru-maintenance' ); ?></h2>
+			<p class="description"><?php esc_html_e( 'Configure search engine indexing and launch countdown timer for your upcoming website release.', 'shinjiru-maintenance' ); ?></p>
+			
+			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Search Engine Indexing', 'shinjiru-maintenance' ); ?></th>
 					<td>
 						<label>
 							<input type="checkbox" name="shinjiru_settings[coming_soon_index]" value="1" <?php checked( ! empty( $settings['coming_soon_index'] ) ); ?> />
-							<?php esc_html_e( 'Allow search engines to index the Coming Soon page (removes noindex meta tag)', 'shinjiru-maintenance' ); ?>
+							<strong><?php esc_html_e( 'Allow search engines to index the Coming Soon page (removes noindex meta tag)', 'shinjiru-maintenance' ); ?></strong>
 						</label>
-						<p class="description"><?php esc_html_e( 'Recommended if you want Google to index your pre-launch page and brand title.', 'shinjiru-maintenance' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Recommended if you want Google and Bing to index your pre-launch page, brand name, and metadata.', 'shinjiru-maintenance' ); ?></p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Enable Countdown Timer', 'shinjiru-maintenance' ); ?></th>
+					<td>
+						<label>
+							<input type="checkbox" name="shinjiru_settings[show_countdown]" value="1" <?php checked( ! empty( $settings['show_countdown'] ) ); ?> />
+							<?php esc_html_e( 'Display countdown timer ticking down to launch', 'shinjiru-maintenance' ); ?>
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="shinjiru_countdown_target_cs"><?php esc_html_e( 'Target Launch Date & Time', 'shinjiru-maintenance' ); ?></label></th>
+					<td>
+						<input type="datetime-local" id="shinjiru_countdown_target_cs" name="shinjiru_settings[countdown_target]" value="<?php echo esc_attr( $settings['countdown_target'] ); ?>" class="regular-text" />
+						<p class="description">
+							<?php 
+							$tz_name = wp_timezone_string();
+							/* translators: %s: site timezone string */
+							printf( esc_html__( 'Calculated according to your WordPress site timezone: %s', 'shinjiru-maintenance' ), '<strong>' . esc_html( $tz_name ) . '</strong>' ); 
+							?>
+						</p>
 					</td>
 				</tr>
 			</table>

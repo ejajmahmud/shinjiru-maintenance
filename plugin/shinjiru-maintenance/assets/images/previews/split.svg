@@ -1,17 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="100%" height="100%">
-  <!-- Left Half -->
-  <rect x="0" y="0" width="160" height="240" fill="#0F172A"/>
-  <rect x="55" y="70" width="50" height="50" rx="12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)"/>
-  <path d="M80 82 L95 90 L95 106 L80 114 L65 106 L65 90 Z" fill="none" stroke="#D32F2F" stroke-width="2"/>
-  <text x="80" y="140" fill="#F8FAFC" font-family="-apple-system, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Quality in Motion</text>
-  <!-- Right Half -->
-  <rect x="160" y="0" width="240" height="240" fill="#FFFFFF"/>
-  <rect x="180" y="42" width="100" height="20" rx="3" fill="#D32F2F"/>
-  <text x="230" y="56" fill="#FFFFFF" font-family="-apple-system, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">SHINJIRU</text>
-  <rect x="180" y="75" width="180" height="14" rx="2" fill="#0F172A"/>
-  <rect x="180" y="98" width="150" height="8" rx="2" fill="#64748B"/>
-  <rect x="180" y="112" width="120" height="8" rx="2" fill="#64748B"/>
-  <rect x="180" y="140" width="130" height="26" rx="4" fill="#F8FAFC" stroke="#E2E8F0"/>
-  <rect x="315" y="140" width="45" height="26" rx="4" fill="#D32F2F"/>
-  <text x="337" y="157" fill="#FFFFFF" font-family="-apple-system, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">ACCESS</text>
+  <rect width="400" height="240" fill="#F6F3EC"/>
+  <!-- Left content side -->
+  <rect x="25" y="22" width="60" height="10" rx="2" fill="#B2262B"/>
+  <text x="25" y="65" fill="#65736A" font-family="Arial, sans-serif" font-size="7" font-weight="bold" letter-spacing="1">WE'LL BE RIGHT BACK</text>
+  <text x="25" y="95" fill="#263B35" font-family="Georgia, serif" font-size="16">Making room</text>
+  <text x="25" y="115" fill="#263B35" font-family="Georgia, serif" font-size="16">for what's next.</text>
+  <rect x="25" y="130" width="140" height="3" rx="1.5" fill="#65736A" opacity="0.4"/>
+  <rect x="25" y="152" width="85" height="22" fill="#263B35"/>
+  <text x="67" y="166" fill="#F6F3EC" font-family="Arial, sans-serif" font-size="7" font-weight="bold" text-anchor="middle">STAFF ACCESS ↗</text>
+  <text x="25" y="222" fill="#65736A" font-family="Arial, sans-serif" font-size="7">© 2026 Shinjiru</text>
+  <!-- Right architectural illustration side -->
+  <g transform="translate(230, 0)">
+    <rect width="170" height="240" fill="#D6DECE"/>
+    <path d="M30 240V100a50 50 0 0 1 100 0v140" fill="#B5C1AC"/>
+    <path d="M50 240V105a30 30 0 0 1 60 0v135" fill="#80957E"/>
+    <path d="M65 240V110a15 15 0 0 1 30 0v130" fill="#344D40"/>
+    <line x1="0" y1="190" x2="170" y2="190" stroke="#EEF0E7" stroke-width="1"/>
+    <line x1="0" y1="210" x2="170" y2="210" stroke="#EEF0E7" stroke-width="1"/>
+  </g>
 </svg>

@@ -1,184 +1,107 @@
-<!DOCTYPE html>
+<!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
   <meta charset="<?php bloginfo( 'charset' ); ?>">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
   <title><?php echo $title; ?></title>
   <link rel="stylesheet" href="<?php echo esc_url( SHINJIRU_MAINTENANCE_URL . 'assets/css/templates.css' ); ?>">
-  <style>
-    body.tpl-split {
-      background-color: #FFFFFF;
-      color: #0F172A;
-      min-height: 100vh;
-      display: flex;
-    }
-    .split-container {
-      display: flex;
-      width: 100%;
-      min-height: 100vh;
-    }
-    .split-visual {
-      flex: 1;
-      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 40px;
-      color: #FFFFFF;
-      position: relative;
-      overflow: hidden;
-    }
-    .split-visual-pattern {
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(211,47,47,0.15) 10%, transparent 20%), radial-gradient(circle, rgba(2,132,199,0.12) 15%, transparent 25%);
-      background-size: 60px 60px;
-      opacity: 0.6;
-    }
-    .split-visual-content {
-      position: relative;
-      z-index: 2;
-      max-width: 420px;
-      text-align: center;
-    }
-    .split-visual-icon {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 24px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .split-content {
-      flex: 1.2;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: clamp(30px, 6vw, 80px);
-      background: #FFFFFF;
-    }
-    .split-inner {
-      max-width: 520px;
-      width: 100%;
-    }
-    .split-logo {
-      max-height: 48px;
-      margin-bottom: 32px;
-    }
-    .split-heading {
-      font-size: clamp(28px, 4vw, 40px);
-      font-weight: 800;
-      line-height: 1.2;
-      margin: 0 0 16px;
-      color: #0F172A;
-    }
-    .split-desc {
-      font-size: 16px;
-      color: #64748B;
-      line-height: 1.6;
-      margin: 0 0 28px;
-    }
-    .split-btn {
-      display: inline-block;
-      background: #D32F2F;
-      color: #FFFFFF;
-      padding: 13px 28px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 15px;
-      transition: background 0.2s ease;
-    }
-    .split-btn:hover { background: #B71C1C; }
-    .split-cd .shinjiru-cd-item {
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
-      color: #0F172A;
-    }
-    .split-footer {
-      margin-top: 48px;
-      font-size: 13px;
-      color: #94A3B8;
-    }
-    @media (max-width: 860px) {
-      .split-container {
-        flex-direction: column;
-      }
-      .split-visual {
-        padding: 50px 20px;
-        min-height: 240px;
-      }
-      .split-content {
-        padding: 40px 20px;
-      }
-    }
-    <?php echo $custom_css; ?>
-  </style>
+  <?php if ( ! empty( $custom_css ) ) : ?>
+    <style><?php echo $custom_css; ?></style>
+  <?php endif; ?>
 </head>
-<body class="tpl-split">
-  <div class="split-container">
-    <div class="split-visual" role="presentation">
-      <div class="split-visual-pattern"></div>
-      <div class="split-visual-content">
-        <div class="split-visual-icon">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#D32F2F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <h2 style="font-size:24px; font-weight:700; margin:0 0 10px; color:#F8FAFC;"><?php esc_html_e( 'Quality in Motion', 'shinjiru-maintenance' ); ?></h2>
-        <p style="font-size:14px; color:#94A3B8; margin:0; line-height:1.5;"><?php esc_html_e( 'Enhancing platform performance, security hardening, and high-availability updates.', 'shinjiru-maintenance' ); ?></p>
+<body class="split">
+  <div class="page">
+    <header class="masthead">
+      <img class="logo" src="<?php echo $logo_url; ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
+      <div class="notice">
+        <span class="dot" aria-hidden="true"></span>
+        <?php 
+        if ( 'locked' === $status ) {
+          esc_html_e( 'Private / Password Protected', 'shinjiru-maintenance' );
+        } elseif ( 'coming_soon' === $status ) {
+          esc_html_e( 'Coming Soon / In Development', 'shinjiru-maintenance' );
+        } else {
+          esc_html_e( 'Scheduled Maintenance', 'shinjiru-maintenance' );
+        }
+        ?>
       </div>
-    </div>
+    </header>
 
-    <main class="split-content" role="main">
-      <div class="split-inner">
-        <?php if ( $logo_url ) : ?>
-          <img src="<?php echo $logo_url; ?>" alt="Logo" class="split-logo" />
-        <?php endif; ?>
+    <main class="content" id="main">
+      <div class="layout">
+        <div>
+          <p class="eyebrow">
+            <?php 
+            if ( 'locked' === $status ) {
+              esc_html_e( 'Restricted Access', 'shinjiru-maintenance' );
+            } elseif ( 'coming_soon' === $status ) {
+              esc_html_e( 'Something New is Coming', 'shinjiru-maintenance' );
+            } else {
+              esc_html_e( 'We’ll be right back', 'shinjiru-maintenance' );
+            }
+            ?>
+          </p>
+          <h1><?php echo $headline; ?></h1>
+          <div class="description"><?php echo $description; ?></div>
 
-        <h1 class="split-heading"><?php echo $headline; ?></h1>
-        <div class="split-desc"><?php echo $description; ?></div>
-
-        <?php if ( $show_countdown && $countdown_target ) : ?>
-          <div class="shinjiru-countdown-container split-cd" data-countdown-target="<?php echo $countdown_target; ?>" aria-label="<?php esc_attr_e( 'Countdown', 'shinjiru-maintenance' ); ?>">
-            <div class="shinjiru-cd-item"><span class="shinjiru-cd-num cd-days">00</span><span class="shinjiru-cd-label"><?php esc_html_e( 'Days', 'shinjiru-maintenance' ); ?></span></div>
-            <div class="shinjiru-cd-item"><span class="shinjiru-cd-num cd-hours">00</span><span class="shinjiru-cd-label"><?php esc_html_e( 'Hours', 'shinjiru-maintenance' ); ?></span></div>
-            <div class="shinjiru-cd-item"><span class="shinjiru-cd-num cd-minutes">00</span><span class="shinjiru-cd-label"><?php esc_html_e( 'Mins', 'shinjiru-maintenance' ); ?></span></div>
-            <div class="shinjiru-cd-item"><span class="shinjiru-cd-num cd-seconds">00</span><span class="shinjiru-cd-label"><?php esc_html_e( 'Secs', 'shinjiru-maintenance' ); ?></span></div>
-          </div>
-        <?php endif; ?>
-
-        <?php if ( $show_cta && $cta_url ) : ?>
-          <div><a href="<?php echo $cta_url; ?>" class="split-btn"><?php echo $cta_text; ?></a></div>
-        <?php endif; ?>
-
-        <?php if ( $enable_password ) : ?>
-          <form method="post" action="" class="shinjiru-gate-form">
-            <?php wp_nonce_field( 'shinjiru_pass_action', 'shinjiru_pass_nonce' ); ?>
-            <div class="shinjiru-gate-group">
-              <input type="password" name="shinjiru_password" placeholder="<?php esc_attr_e( 'Bypass password', 'shinjiru-maintenance' ); ?>" required class="shinjiru-gate-input" aria-label="<?php esc_attr_e( 'Password', 'shinjiru-maintenance' ); ?>" />
-              <button type="submit" class="shinjiru-gate-btn split-btn"><?php esc_html_e( 'Access', 'shinjiru-maintenance' ); ?></button>
+          <?php if ( $show_countdown && $countdown_target ) : ?>
+            <div class="countdown" data-countdown-target="<?php echo $countdown_target; ?>" aria-label="<?php esc_attr_e( 'Countdown', 'shinjiru-maintenance' ); ?>">
+              <div class="unit"><span class="num cd-days">00</span><span class="label"><?php esc_html_e( 'Days', 'shinjiru-maintenance' ); ?></span></div>
+              <div class="unit"><span class="num cd-hours">00</span><span class="label"><?php esc_html_e( 'Hours', 'shinjiru-maintenance' ); ?></span></div>
+              <div class="unit"><span class="num cd-minutes">00</span><span class="label"><?php esc_html_e( 'Minutes', 'shinjiru-maintenance' ); ?></span></div>
+              <div class="unit"><span class="num cd-seconds">00</span><span class="label"><?php esc_html_e( 'Seconds', 'shinjiru-maintenance' ); ?></span></div>
             </div>
-          </form>
-        <?php endif; ?>
-
-        <footer class="split-footer">
-          <?php if ( array_filter( $socials ) ) : ?>
-            <ul class="shinjiru-social-list">
-              <?php foreach ( $socials as $network => $surl ) : if ( empty( $surl ) ) continue; ?>
-                <li><a href="<?php echo $surl; ?>" target="_blank" rel="noopener noreferrer" class="shinjiru-social-link" style="background:#F1F5F9; color:#0F172A;" aria-label="<?php echo esc_attr( ucfirst( $network ) ); ?>">
-                  &bull;
-                </a></li>
-              <?php endforeach; ?>
-            </ul>
           <?php endif; ?>
-          <p style="margin-top:16px;"><?php echo $footer_text; ?></p>
-        </footer>
+
+          <div class="actions">
+            <?php if ( $show_cta && $cta_url ) : ?>
+              <a href="<?php echo $cta_url; ?>" class="button"><?php echo $cta_text; ?> <span class="arrow" aria-hidden="true">↗</span></a>
+            <?php endif; ?>
+            <?php if ( $enable_password ) : ?>
+              <button class="button" type="button" onclick="var d=document.querySelector('details.access');if(d){d.open=true;}var inp=document.getElementById('password');if(inp){inp.focus();}"><?php esc_html_e( 'Enter Password', 'shinjiru-maintenance' ); ?> <span class="arrow" aria-hidden="true">↗</span></button>
+            <?php endif; ?>
+          </div>
+
+          <?php if ( $enable_password ) : ?>
+            <details class="access" <?php echo ( 'locked' === $status ) ? 'open' : ''; ?>>
+              <summary><?php esc_html_e( 'Have an access password?', 'shinjiru-maintenance' ); ?></summary>
+              <form class="gate" method="post" action="">
+                <?php wp_nonce_field( 'shinjiru_pass_action', 'shinjiru_pass_nonce' ); ?>
+                <label for="password"><?php esc_html_e( 'Access password', 'shinjiru-maintenance' ); ?></label>
+                <div class="field">
+                  <input id="password" name="shinjiru_password" type="password" autocomplete="current-password" required placeholder="<?php esc_attr_e( 'Enter site password', 'shinjiru-maintenance' ); ?>">
+                  <button type="submit"><?php esc_html_e( 'Continue', 'shinjiru-maintenance' ); ?></button>
+                </div>
+                <p class="hint" role="status"><?php esc_html_e( 'Enter the assigned password to unlock access for 24 hours.', 'shinjiru-maintenance' ); ?></p>
+              </form>
+            </details>
+          <?php endif; ?>
+        </div>
+
+        <aside class="side-note">
+          <p><?php esc_html_e( 'Taking a moment to make things better.', 'shinjiru-maintenance' ); ?></p>
+          <p><?php esc_html_e( 'We appreciate you stopping by.', 'shinjiru-maintenance' ); ?></p>
+        </aside>
       </div>
     </main>
+
+    <aside class="art" aria-label="<?php esc_attr_e( 'Abstract architectural illustration', 'shinjiru-maintenance' ); ?>">
+      <svg viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="600" height="900" fill="#d6dece"/>
+        <path d="M110 900V360a190 190 0 0 1 380 0v540" fill="#b5c1ac"/>
+        <path d="M175 900V365a125 125 0 0 1 250 0v535" fill="#80957e"/>
+        <path d="M235 900V370a65 65 0 0 1 130 0v530" fill="#344d40"/>
+        <path d="M0 735h600M0 790h600M0 845h600" stroke="#eef0e7" stroke-width="1"/>
+        <path d="M300 900V435" stroke="#b9c6ae"/>
+      </svg>
+      <p><span><?php esc_html_e( 'A work in progress.', 'shinjiru-maintenance' ); ?></span><span>01 / 06</span></p>
+    </aside>
+
+    <footer class="bottom">
+      <p><?php echo $footer_text; ?></p>
+      <p><?php esc_html_e( 'Thank you for your patience.', 'shinjiru-maintenance' ); ?></p>
+    </footer>
   </div>
   <script src="<?php echo esc_url( SHINJIRU_MAINTENANCE_URL . 'assets/js/countdown.js' ); ?>"></script>
 </body>
