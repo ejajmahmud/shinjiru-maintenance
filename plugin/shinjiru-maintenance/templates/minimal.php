@@ -16,9 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
   <meta name="robots" content="noindex,nofollow">
   <title><?php echo esc_html( $title ); ?></title>
   <?php wp_head(); ?>
-  <?php if ( ! empty( $custom_css ) ) : ?>
-    <style><?php echo wp_strip_all_tags( $custom_css ); ?></style>
-  <?php endif; ?>
 </head>
 <body class="minimal">
   <div class="page">

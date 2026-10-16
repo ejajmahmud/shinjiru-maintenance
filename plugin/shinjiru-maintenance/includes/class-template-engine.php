@@ -100,13 +100,17 @@ class Template_Engine {
 		];
 
 		// Register actions to cleanly enqueue styles and scripts for the template
-		add_action( 'wp_enqueue_scripts', function() {
+		add_action( 'wp_enqueue_scripts', function() use ( $custom_css ) {
 			wp_enqueue_style(
 				'shinjiru-maintenance-templates',
 				SHINJIRU_MAINTENANCE_URL . 'assets/css/templates.css',
 				[],
 				SHINJIRU_MAINTENANCE_VERSION
 			);
+
+			if ( ! empty( $custom_css ) ) {
+				wp_add_inline_style( 'shinjiru-maintenance-templates', wp_strip_all_tags( $custom_css ) );
+			}
 
 			wp_enqueue_script(
 				'shinjiru-maintenance-countdown',
